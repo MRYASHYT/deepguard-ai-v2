@@ -10,7 +10,7 @@ from models.efficientnet import DeepfakeEfficientNet
 from preprocessing.detect_faces import FaceDetector
 from utils.dataset import get_val_transforms
 
-st.set_page_config(page_title="DeepGuard AI", page_icon="🛡️", layout="wide", menu_items={})
+st.set_page_config(page_title="DeepGuard AI", page_icon="🛡️", layout="wide", initial_sidebar_state="expanded", menu_items={})
 
 # ─── MASSIVE CSS OVERHAUL ───
 st.markdown("""<style>
@@ -20,6 +20,7 @@ h1, h2, h3, h4, h5, h6, p, label, li {font-family:'Plus Jakarta Sans',sans-serif
 pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 .stApp{background:#000}
 [data-testid="stHeader"]{background:transparent!important}
+[data-testid="collapsedControl"]{color:#fff!important;background:#000!important;border-radius:50%!important}
 [data-testid="stToolbar"]{display:none!important}
 [data-testid="stDecoration"]{display:none!important}
 [data-testid="stStatusWidget"]{display:none!important}
