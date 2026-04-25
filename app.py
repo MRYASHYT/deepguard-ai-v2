@@ -117,6 +117,12 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
     border: 1px solid var(--border-dim);
     position: relative;
     overflow: hidden;
+    animation: dim-pulse 2s infinite ease-in-out;
+}
+
+@keyframes dim-pulse {
+    0%, 100% { background: #0a0a0a; border-color: #1e293b; }
+    50% { background: #151515; border-color: #334155; }
 }
 
 .system-init {
