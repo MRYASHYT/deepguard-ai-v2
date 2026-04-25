@@ -444,7 +444,7 @@ if uploaded:
                             <div style='font-size:.6rem; color:var(--accent); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:1rem; font-family: "IBM Plex Mono"!important;'>// METADATA_DUMP</div>
                             <table style='width: 100%; border: none;'>
                                 <tr><td style='color:var(--text-muted); width: 100px;'>FILE_NAME</td><td>{uploaded.name}</td></tr>
-                                <tr><td style='color:var(--text-muted);'>VERDICT</td><td class='{"red" if fake else "teal"}'><b>{v}</b></td></tr>
+                                <tr><td style='color:var(--text-muted);'>VERDICT</td><td class='{"red" if fake else "teal"}'><b>{"MANIPULATED" if fake else "AUTHENTIC"}</b></td></tr>
                                 <tr><td style='color:var(--text-muted);'>SCORE</td><td>{prob*100:.2f}%</td></tr>
                                 <tr><td style='color:var(--text-muted);'>RISK_LVL</td><td>{risk}</td></tr>
                                 <tr style='border-bottom: none;'><td style='color:var(--text-muted);'>TIMESTAMP</td><td>{datetime.now().strftime('%Y%m%d_%H%M%S')}</td></tr>
@@ -472,6 +472,10 @@ if uploaded:
                     <div class='verdict-text {vc}'>{"MANIPULATED" if fake else "AUTHENTIC"}</div>
                     <div class='metric-row'><div class='metric-item'><div class='metric-val'>{avg*100:.1f}%</div><div class='metric-label'>Avg Score</div></div></div>
                 </div>""", unsafe_allow_html=True)
+                
+                # Video Report Generation
+                v_rt = f"--- DEEPGUARD FORENSIC REPORT ---\nTarget: {uploaded.name}\nType: VIDEO\nAverage Probability: {avg:.4f}\nVerdict: {'MANIPULATED' if fake else 'AUTHENTIC'}\nTimestamp: {datetime.now()}\n--- END OF REPORT ---"
+                st.download_button("↓  DOWNLOAD FORENSIC REPORT", v_rt, f"report_{uploaded.name}.txt", "text/plain")
 
 else:
     st.session_state.analyzed = False
