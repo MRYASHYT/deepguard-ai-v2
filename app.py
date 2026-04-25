@@ -19,37 +19,35 @@ st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-    --bg-main: #050505;
-    --bg-surface: #0a0a0a;
+    --bg-main: #000000;
+    --bg-surface: #000000;
     --accent: #0ea5e9;
     --danger: #f43f5e;
-    --border-dim: #1e293b;
-    --border-bright: #334155;
-    --text-main: #f1f5f9;
+    --border-dim: rgba(255, 255, 255, 0.08);
+    --border-bright: rgba(255, 255, 255, 0.15);
+    --text-main: #ffffff;
     --text-muted: #64748b;
 }
 
 /* --- Global Reset --- */
-h1, h2, h3, h4, h5, h6, p, label, li {font-family:'Hanken Grotesk',sans-serif!important;}
+h1, h2, h3, h4, h5, h6, p, label, li {font-family:'Hanken Grotesk',sans-serif!important; color: var(--text-main)!important;}
 pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 
 .stApp {
-    background-color: var(--bg-main);
-    background-image: radial-gradient(circle at 2px 2px, #ffffff05 1px, transparent 0);
-    background-size: 24px 24px;
+    background-color: var(--bg-main)!important;
 }
 
 /* --- Sidebar: Tactical Look --- */
-[data-testid="stSidebar"] {
-    background-color: var(--bg-surface)!important;
+[data-testid="stSidebar"], [data-testid="stSidebar"] > div:first-child {
+    background-color: var(--bg-main)!important;
     border-right: 1px solid var(--border-dim)!important;
 }
 
 /* --- Containers: Sharp & Solid --- */
 .box, .verdict-container, .report-box, [data-testid="stFileUploader"] section {
-    background: var(--bg-surface)!important;
+    background: var(--bg-main)!important;
     border: 1px solid var(--border-dim)!important;
-    border-radius: 2px!important;
+    border-radius: 0!important;
     box-shadow: none!important;
 }
 
@@ -63,7 +61,7 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
     text-transform: uppercase;
     letter-spacing: 1.5px;
     padding: 0.6rem 1.2rem!important;
-    border-radius: 2px!important;
+    border-radius: 0!important;
     transition: all 0.1s ease;
 }
 .stButton>button:hover {
@@ -75,7 +73,7 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 /* --- Verdict: High Contrast --- */
 .verdict-container {
     padding: 2.5rem;
-    border-left: 4px solid var(--border-dim)!important;
+    border-left: 2px solid var(--border-dim)!important;
 }
 .verdict-container.fake { border-left-color: var(--danger)!important; background: rgba(244, 63, 94, 0.02)!important; }
 .verdict-container.real { border-left-color: var(--accent)!important; background: rgba(14, 165, 233, 0.02)!important; }
@@ -102,6 +100,7 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
     display: flex;
     gap: 1rem;
     align-items: center;
+    background: #000!important;
 }
 .finding-item.alert { border-color: rgba(244, 63, 94, 0.3); background: rgba(244, 63, 94, 0.03); }
 
@@ -113,23 +112,23 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 
 /* --- Skeleton Loader: Structural --- */
 .skeleton {
-    background: var(--bg-surface);
+    background: #000!important;
     border: 1px solid var(--border-dim);
     position: relative;
     overflow: hidden;
-    animation: dim-pulse 2s infinite ease-in-out;
+    animation: dim-pulse 2.5s infinite ease-in-out;
 }
 
 @keyframes dim-pulse {
-    0%, 100% { background: #0a0a0a; border-color: #1e293b; }
-    50% { background: #151515; border-color: #334155; }
+    0%, 100% { border-color: rgba(255, 255, 255, 0.05); }
+    50% { border-color: rgba(255, 255, 255, 0.15); }
 }
 
 .system-init {
     position: fixed;
     inset: 0;
     z-index: 999999;
-    background: var(--bg-main);
+    background: #000!important;
     display: flex;
 }
 
@@ -138,7 +137,7 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
     height: 100vh;
     border-right: 1px solid var(--border-dim);
     padding: 2rem;
-    background: var(--bg-surface);
+    background: #000!important;
 }
 
 .main-skeleton {
