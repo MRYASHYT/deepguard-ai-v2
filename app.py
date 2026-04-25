@@ -19,12 +19,11 @@ st.markdown("""<style>
 h1, h2, h3, h4, h5, h6, p, label, li {font-family:'Plus Jakarta Sans',sans-serif!important;}
 pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 .stApp{background:#000}
-[data-testid="stHeader"]{display:none!important}
+[data-testid="stHeader"]{background:transparent!important}
 [data-testid="stToolbar"]{display:none!important}
 [data-testid="stDecoration"]{display:none!important}
 [data-testid="stStatusWidget"]{display:none!important}
 .stDeployButton{display:none!important}
-button[kind="header"]{display:none!important}
 [data-testid="stSidebar"]{background:#000!important;border-right:1px solid #1e293b!important;color:#94a3b8!important}
 [data-testid="stFileUploader"]{background:transparent!important}
 [data-testid="stFileUploader"] section{border:1px dashed #334155!important;border-radius:0!important;background:#0a0a0a!important;padding:2rem!important}
