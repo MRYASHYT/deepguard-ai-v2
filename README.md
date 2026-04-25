@@ -42,13 +42,19 @@ When you upload a file, the system executes the following chain:
 
 ---
 
-## 🧠 The Science Components
+## 🧠 The Science Behind It (For Students & Professors)
 
-### 1. MTCNN (Face Detection)
-MTCNN is a robust three-stage cascaded CNN that performs face detection and bounding box regression simultaneously. We use it to isolate the facial region of interest (ROI) with a 20-pixel margin, ensuring the downstream classifier isn't influenced by irrelevant background noise.
+### 1. Detection: MTCNN (Multi-task Cascaded Convolutional Networks)
+*   **For the Student**: Before you can tell if a face is fake, you have to find the face! MTCNN is like a highly trained scout that scans the whole photo, ignores the background, and draws a perfect square right around the person's face.
+*   **For the Professor**: MTCNN is a robust three-stage cascaded CNN that performs face detection and bounding box regression simultaneously. We use it as a preprocessing step to isolate the facial region of interest (ROI) with a 20-pixel margin, ensuring the downstream classifier isn't influenced by irrelevant background noise.
 
-### 2. Explainability: Grad-CAM
-Neural networks are often criticized as "black boxes." Grad-CAM solves this by using the gradients flowing into the final convolutional layer (`conv_head`) to produce a localization map. This allows forensic analysts to verify that the model is detecting genuine synthetic artifacts (e.g., blending boundaries) rather than overfitting to spurious correlations.
+### 2. The Model: EfficientNet-B4
+*   **For the Student**: This is the "brain" of the operation. EfficientNet has analyzed millions of images. It looks at the cropped face and checks for microscopic mistakes—like blurred skin boundaries or unnatural lighting—that humans can't see, but AI generators often mess up.
+*   **For the Professor**: EfficientNet-B4 is our primary feature-extraction backbone. It utilizes a compound scaling method that uniformly scales network width, depth, and resolution. B4 was chosen for its optimal balance between forensic accuracy and computational efficiency. It was fine-tuned using a Two-Phase Transfer Learning approach with a custom classification head using Binary Cross Entropy (BCE) Loss.
+
+### 3. Explainability: Grad-CAM
+*   **For the Student**: If the AI says a picture is fake, we want to know *why*. Grad-CAM is like a heat-vision camera. It creates a colorful map over the face, glowing bright red over the exact spots (like a glitchy eyeball or a poorly blended chin) that proved the image was deepfaked.
+*   **For the Professor**: Neural networks are often criticized as "black boxes." Grad-CAM (Gradient-weighted Class Activation Mapping) solves this by using the gradients of the target concept flowing into the final convolutional layer to produce a localization map. This provides critical visual transparency, allowing forensic analysts to verify that the model is detecting genuine synthetic artifacts rather than overfitting to spurious correlations.
 
 ---
 
