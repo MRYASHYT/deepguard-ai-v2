@@ -4,6 +4,15 @@
 
 ---
 
+## 👶 How it Works (The Simple Version)
+Imagine you have a super-smart detective robot with a magnifying glass. 
+1. First, the robot looks at a picture and finds exactly where the person's face is.
+2. Then, it uses its magnifying glass to look incredibly closely at the face—so close that it can see things humans can't, like tiny blurry spots around the edges of the mouth or weird lighting in the eyes.
+3. Finally, it compares what it sees to millions of other real and fake pictures it has studied in the past (Kaggle DFDC). If it sees those weird, unnatural spots, it flags it as a "Deepfake"!
+4. It even draws a heatmap to show you exactly *where* it thinks the image looks suspicious.
+
+---
+
 ## 🛠️ The Engineering Process (Technical Deep Dive)
 
 Creating a forensic-grade detection model requires a rigorous multi-stage pipeline. Below is the full process used to build the DeepGuard engine.
