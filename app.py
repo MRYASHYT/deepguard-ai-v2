@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 import cv2, tempfile, os, sys, io, base64
 from datetime import datetime
+import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from models.efficientnet import DeepfakeEfficientNet
