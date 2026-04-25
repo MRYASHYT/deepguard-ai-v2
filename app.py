@@ -105,74 +105,64 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 }
 .finding-item.alert { border-color: rgba(244, 63, 94, 0.3); background: rgba(244, 63, 94, 0.03); }
 
-/* --- System Ticker (The Spell) --- */
+/* --- System Separators --- */
 .scan-line {
     border-top: 1px solid var(--border-dim);
     margin: 2rem 0;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 0.5rem;
-}
-.scan-line::before {
-    content: 'DEEPGUARD_OS_v1.0';
-    font-family: 'IBM Plex Mono';
-    font-size: 0.55rem;
-    color: var(--text-muted);
-}
-.scan-line::after {
-    content: '[ TERMINAL_ONLINE ]';
-    font-family: 'IBM Plex Mono';
-    font-size: 0.55rem;
-    color: var(--accent);
-    animation: blink 1.5s infinite;
 }
 
-@keyframes blink { 50% { opacity: 0.3; } }
-
-/* --- Tables & Data --- */
-table { width: 100%; border-collapse: collapse; }
-td { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-family: 'IBM Plex Mono'; font-size: 0.75rem; }
-
-/* --- Skeleton Loader --- */
+/* --- Skeleton Loader: Structural --- */
 .skeleton {
     background: var(--bg-surface);
     border: 1px solid var(--border-dim);
-    height: 200px;
-    width: 100%;
     position: relative;
     overflow: hidden;
 }
-.skeleton::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.03), transparent);
-    animation: skeleton-glow 2s infinite linear;
-}
-@keyframes skeleton-glow {
-    0% { transform: translateX(-100%); opacity: 0.1; }
-    50% { opacity: 0.3; }
-    100% { transform: translateX(100%); opacity: 0.1; }
-}
 
 .system-init {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: var(--bg-main);
+    display: flex;
+}
+
+.side-skeleton {
+    width: 300px;
+    height: 100vh;
+    border-right: 1px solid var(--border-dim);
+    padding: 2rem;
+    background: var(--bg-surface);
+}
+
+.main-skeleton {
+    flex: 1;
+    padding: 3rem 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.welcome-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: var(--text-main);
     text-align: center;
-    padding: 10rem 0;
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--text-muted);
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+    animation: fade-out 1.2s forwards;
+    animation-delay: 1.3s;
 }
-.pulse-dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    margin-right: 10px;
-    animation: pulse 1.5s infinite;
-}
-@keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+@keyframes fade-out { to { opacity: 0; visibility: hidden; } }
+
+.teal { color: var(--accent); }
+.red { color: var(--danger); }
+.muted { color: var(--text-muted); }
 </style>""", unsafe_allow_html=True)
 
 # ─── SYSTEM INITIALIZATION ───
@@ -182,21 +172,37 @@ if "init" not in st.session_state:
 if not st.session_state.init:
     init_placeholder = st.empty()
     with init_placeholder.container():
-        st.markdown(f"""
+        st.markdown("""
         <div class='system-init'>
-            <div class='pulse-dot'></div>INITIALIZING_FORENSIC_ENGINE...
-            <div style='margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;'>
-                <div class='skeleton' style='height: 100px;'></div>
-                <div style='display: flex; gap: 1rem;'>
-                    <div class='skeleton' style='height: 150px; flex: 1;'></div>
-                    <div class='skeleton' style='height: 150px; flex: 1;'></div>
+            <div class='welcome-text'>
+                <div style='font-size: 0.8rem; color: var(--accent); letter-spacing: 5px; margin-bottom: 1rem;'>DEEPGUARD</div>
+                FORENSIC ENGINE
+            </div>
+            <div class='side-skeleton'>
+                <div class='skeleton' style='height: 30px; margin-bottom: 2rem; width: 60%; opacity: 0.3;'></div>
+                <div class='skeleton' style='height: 1px; margin-bottom: 2rem; opacity: 0.2;'></div>
+                <div class='skeleton' style='height: 40px; margin-bottom: 1rem; opacity: 0.1;'></div>
+                <div class='skeleton' style='height: 40px; margin-bottom: 1rem; opacity: 0.1;'></div>
+            </div>
+            <div class='main-skeleton'>
+                <div style='display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;'>
+                    <div class='skeleton' style='width: 50px; height: 50px; opacity: 0.3;'></div>
+                    <div style='flex: 1;'>
+                        <div class='skeleton' style='height: 25px; width: 200px; margin-bottom: 0.5rem; opacity: 0.3;'></div>
+                        <div class='skeleton' style='height: 12px; width: 350px; opacity: 0.1;'></div>
+                    </div>
                 </div>
-                <div class='skeleton' style='height: 40px;'></div>
+                <div class='skeleton' style='height: 1px; opacity: 0.2;'></div>
+                <div class='skeleton' style='height: 300px; opacity: 0.05;'></div>
+                <div style='display: flex; gap: 2rem;'>
+                    <div class='skeleton' style='height: 80px; flex: 1; opacity: 0.1;'></div>
+                    <div class='skeleton' style='height: 80px; flex: 1; opacity: 0.1;'></div>
+                    <div class='skeleton' style='height: 80px; flex: 1; opacity: 0.1;'></div>
+                </div>
             </div>
         </div>""", unsafe_allow_html=True)
         
-        # Load heavy resources here
-        time.sleep(1.5) # Minimum aesthetic delay
+        time.sleep(2.5) # Allow welcome animation to breathe
         st.session_state.init = True
         st.rerun()
 
