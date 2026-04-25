@@ -1,0 +1,10 @@
+torch
+torchvision
+timm
+facenet-pytorch
+albumentations
+grad-cam
+opencv-python-headless
+scikit-learn
+Pillow
+streamlit

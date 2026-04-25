@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+venv/
+*.jpg_face.jpg
+*.mp4
+.tempmediaStorage/
+scratch/
+faceforensics_benchmark_images.zip
