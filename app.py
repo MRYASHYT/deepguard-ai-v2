@@ -16,55 +16,154 @@ st.set_page_config(page_title="DeepGuard AI", page_icon="🛡️", layout="wide"
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg-dark: #020617;
+    --card-bg: rgba(15, 23, 42, 0.6);
+    --accent: #2dd4bf;
+    --accent-glow: rgba(45, 212, 191, 0.2);
+    --danger: #fb7185;
+    --danger-glow: rgba(251, 113, 133, 0.2);
+    --border: rgba(51, 65, 85, 0.5);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+}
+
 h1, h2, h3, h4, h5, h6, p, label, li {font-family:'Plus Jakarta Sans',sans-serif!important;}
 pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
-.stApp{background:#000}
 
-[data-testid="stSidebar"]{background:#000!important;border-right:1px solid #1e293b!important;color:#94a3b8!important}
-[data-testid="stFileUploader"]{background:transparent!important}
-[data-testid="stFileUploader"] section{border:1px dashed #334155!important;border-radius:0!important;background:#0a0a0a!important;padding:2rem!important}
-[data-testid="stFileUploader"] section:hover{border-color:#2dd4bf!important}
-[data-testid="stFileUploader"] small{color:#64748b!important}
-[data-testid="stUploadedFile"]{background:#0a0a0a!important;border:1px solid #1e293b!important;border-radius:0!important;padding:.5rem!important;width:100%!important}
-[data-testid="stUploadedFile"] *{color:#94a3b8!important}
-[data-testid="stUploadedFile"] svg{fill:#2dd4bf!important}
-.stButton>button{border-radius:0!important;border:1px solid #334155!important;background:transparent!important;color:#fff!important;font-weight:500!important;padding:.6rem 1.5rem!important;letter-spacing:.5px!important;text-transform:uppercase!important;font-size:.75rem!important;transition:all .15s ease!important}
-.stButton>button:hover{background:#fff!important;color:#000!important;border-color:#fff!important}
-.stTextInput>div>div>input{background:#0a0a0a!important;border:1px solid #1e293b!important;border-radius:0!important;color:#fff!important;font-family:'Plus Jakarta Sans',sans-serif!important}
-.stTextInput>div>div>input:focus{border-color:#2dd4bf!important}
-h1{color:#2dd4bf!important;font-weight:800!important;font-size:2.2rem!important;letter-spacing:-1px!important}
-h2{color:#fff!important;font-weight:700!important;font-size:1.15rem!important;letter-spacing:-.3px!important;text-transform:uppercase!important}
-h3{color:#94a3b8!important;font-weight:500!important;font-size:.85rem!important;text-transform:uppercase!important;letter-spacing:1.5px!important}
-.stProgress>div>div>div>div{background:#2dd4bf!important}
-.line{border-top:1px solid #1e293b;margin:1.5rem 0}
-.box{border:1px solid #1e293b;padding:1.5rem;margin:.5rem 0}
-.verdict-container{border:1px solid #1e293b;padding:2.5rem 2rem;text-align:center}
-.verdict-container.fake{border-color:#dc2626;box-shadow:0 0 80px rgba(220,38,38,.06)}
-.verdict-container.real{border-color:#2dd4bf;box-shadow:0 0 80px rgba(45,212,191,.06)}
-.verdict-label{font-size:.7rem;text-transform:uppercase;letter-spacing:3px;color:#64748b;margin-bottom:.8rem}
-.verdict-text{font-size:2.5rem;font-weight:800;letter-spacing:-2px}
-.verdict-text.fake{color:#dc2626}.verdict-text.real{color:#2dd4bf}
-.metric-row{display:flex;gap:2rem;margin-top:1.5rem;justify-content:center}
-.metric-item{text-align:center}
-.metric-val{font-size:1.4rem;font-weight:700;color:#fff;font-family:'IBM Plex Mono',monospace!important}
-.metric-label{font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:1.5px;margin-top:.2rem}
-.finding-item{border-left:2px solid #2dd4bf;padding:.8rem 1rem;margin:.6rem 0;color:#cbd5e1;font-size:.88rem;line-height:1.6}
-.finding-item.alert{border-left-color:#dc2626}
-.finding-num{color:#64748b;font-family:'IBM Plex Mono',monospace!important;font-size:.75rem;margin-right:.5rem}
-.region-bar-wrap{display:flex;align-items:center;margin:.4rem 0;gap:1rem}
-.region-name{width:160px;font-size:.8rem;color:#94a3b8;flex-shrink:0}
-.region-bar-bg{flex:1;height:6px;background:#1e293b}
-.region-bar-fill{height:6px}
-.region-pct{width:50px;text-align:right;font-size:.8rem;font-family:'IBM Plex Mono',monospace!important;color:#64748b}
-.report-box{border:1px solid #1e293b;padding:1.5rem;font-family:'IBM Plex Mono',monospace!important;font-size:.78rem;line-height:1.8;color:#94a3b8;white-space:pre-wrap;word-break:break-word}
-.teal{color:#2dd4bf}.red{color:#dc2626}.muted{color:#64748b}
-.footer-bar{border-top:1px solid #1e293b;padding:1.5rem 0;text-align:center;color:#334155;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;margin-top:3rem}
-.login-box{max-width:380px;margin:12vh auto;border:1px solid #1e293b;padding:3rem;text-align:center}
-.login-title{font-size:1.8rem;font-weight:800;color:#2dd4bf;letter-spacing:-1px;margin-bottom:.3rem}
-.login-sub{font-size:.8rem;color:#64748b;margin-bottom:2rem}
-.logo-glyph{font-size:2.5rem;margin-bottom:1rem}
-.scan-line{height:1px;background:linear-gradient(90deg,transparent,#2dd4bf,transparent);margin:1rem 0;animation:scanpulse 2s infinite}
-@keyframes scanpulse{0%,100%{opacity:.3}50%{opacity:1}}
+/* --- Atmospheric Background --- */
+.stApp {
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.03) 0%, transparent 70%),
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-attachment: fixed;
+}
+
+/* --- Sidebar Refinement --- */
+[data-testid="stSidebar"] {
+    background: rgba(2, 6, 23, 0.95)!important;
+    backdrop-filter: blur(10px);
+    border-right: 1px solid var(--border)!important;
+}
+
+/* --- Glassmorphic Containers --- */
+.box, .verdict-container, .report-box, [data-testid="stFileUploader"] section {
+    background: var(--card-bg)!important;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border)!important;
+    border-radius: 8px!important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- File Uploader --- */
+[data-testid="stFileUploader"] section {
+    padding: 3rem!important;
+    border: 1px dashed var(--border)!important;
+}
+[data-testid="stFileUploader"] section:hover {
+    border-color: var(--accent)!important;
+    background: rgba(45, 212, 191, 0.02)!important;
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* --- Premium Buttons --- */
+.stButton>button {
+    background: rgba(45, 212, 191, 0.05)!important;
+    border: 1px solid var(--accent)!important;
+    color: var(--accent)!important;
+    font-weight: 600!important;
+    letter-spacing: 1px!important;
+    padding: 0.75rem 2rem!important;
+    border-radius: 4px!important;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+.stButton>button:hover {
+    background: var(--accent)!important;
+    color: var(--bg-dark)!important;
+    box-shadow: 0 0 15px var(--accent-glow);
+    transform: translateY(-1px);
+}
+
+/* --- Verdict Displays --- */
+.verdict-container {
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+.verdict-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent);
+    opacity: 0.5;
+}
+.verdict-container.fake::before { background: var(--danger); }
+
+.verdict-text {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -3px;
+    margin: 0;
+}
+.verdict-text.real { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+.verdict-text.fake { color: var(--danger); text-shadow: 0 0 20px var(--danger-glow); }
+
+/* --- Typography Hierarchy --- */
+h1 {
+    color: var(--text-main)!important;
+    font-weight: 800!important;
+    letter-spacing: -1.5px!important;
+    margin-bottom: 0!important;
+}
+h2 {
+    color: var(--accent)!important;
+    font-size: 0.9rem!important;
+    text-transform: uppercase!important;
+    letter-spacing: 2px!important;
+}
+h3 {
+    color: var(--text-muted)!important;
+    font-size: 0.75rem!important;
+    letter-spacing: 1px!important;
+}
+
+/* --- Forensic Scanlines --- */
+.scan-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.4;
+    margin: 1.5rem 0;
+    position: relative;
+}
+.scan-line::after {
+    content: 'SYSTEM_READY';
+    position: absolute;
+    right: 0; top: -15px;
+    font-family: 'IBM Plex Mono';
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+}
+
+/* --- Metrics & Findings --- */
+.metric-val { font-size: 1.8rem; font-weight: 700; color: #fff; }
+.finding-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 1rem;
+    border-radius: 4px;
+}
+.finding-item.alert { border-left-color: var(--danger); }
+
+.stProgress>div>div>div>div { background: var(--accent)!important; }
+.teal{color:var(--accent)}.red{color:var(--danger)}.muted{color:var(--text-muted)}
+.footer-bar{border-top:1px solid var(--border);padding:2rem 0;text-align:center;color:var(--text-muted);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;margin-top:3rem}
 </style>""", unsafe_allow_html=True)
 
 # ─── AUTH ───
@@ -73,23 +172,24 @@ if "auth" not in st.session_state:
 
 def login_page():
     st.markdown("""
-    <div class='login-box'>
-        <div class='logo-glyph'>🛡️</div>
-        <div class='login-title'>DeepGuard AI</div>
-        <div class='login-sub'>Neural Forensics Engine · v1.0</div>
+    <div style='max-width: 420px; margin: 10vh auto; background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 4rem 3rem; border-radius: 12px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4);'>
+        <div style='font-size: 3.5rem; margin-bottom: 1.5rem;'>🛡️</div>
+        <h1 style='color: var(--accent)!important; font-size: 2.5rem!important; margin-bottom: 0.5rem!important;'>DeepGuard AI</h1>
+        <p style='color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1.5px; margin-bottom: 2rem; font-family: "IBM Plex Mono"!important;'>NEURAL FORENSICS GATEWAY v1.0</p>
         <div class='scan-line'></div>
     </div>""", unsafe_allow_html=True)
-    c1,c2,c3 = st.columns([1,1,1])
+    c1,c2,c3 = st.columns([1,1.2,1])
     with c2:
-        user = st.text_input("Username", placeholder="analyst")
-        pwd = st.text_input("Password", type="password", placeholder="••••••••")
-        if st.button("ACCESS SYSTEM", use_container_width=True):
+        user = st.text_input("Access Identity", placeholder="analyst_id")
+        pwd = st.text_input("Secure Key", type="password", placeholder="••••••••")
+        st.markdown("<div style='margin-top:1.5rem;'></div>", unsafe_allow_html=True)
+        if st.button("AUTHORIZE ACCESS", use_container_width=True):
             if user == "admin" and pwd == "deepguard":
                 st.session_state.auth = True
                 st.rerun()
             else:
-                st.error("Access denied.")
-        st.markdown("<p style='text-align:center;color:#334155;font-size:.7rem;margin-top:1rem;'>Default: admin / deepguard</p>", unsafe_allow_html=True)
+                st.error("Authentication failed. Invalid identity.")
+        st.markdown("<p style='text-align:center;color:#475569;font-size:.7rem;margin-top:1.5rem;font-family:\"IBM Plex Mono\"!important;'>DEFAULT_CREDENTIALS: admin / deepguard</p>", unsafe_allow_html=True)
 
 if not st.session_state.auth:
     login_page()
@@ -205,22 +305,22 @@ def report(fn, prob, fake, finds, regs):
 # ─── SIDEBAR ───
 with st.sidebar:
     st.markdown("<h3>System</h3>", unsafe_allow_html=True)
-    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+    st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
     threshold = st.slider("Threshold", 0.0, 1.0, 0.5, 0.05)
     show_cam = st.checkbox("Grad-CAM", value=True)
-    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+    st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
     st.markdown("<p style='font-size:.75rem;line-height:2;color:#475569;'>Model → EfficientNet-B4<br>Detection → MTCNN<br>Explainability → Grad-CAM</p>", unsafe_allow_html=True)
-    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+    st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
     if st.button("LOGOUT", use_container_width=True):
         st.session_state.auth = False; st.rerun()
 
 # ─── HEADER ───
 st.markdown("""
-<div style='display:flex;align-items:center;gap:1rem;margin-bottom:.5rem;'>
-    <span style='font-size:1.8rem;'>🛡️</span>
+<div style='display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem;'>
+    <div style='width:60px;height:60px;background:var(--card-bg);border:1px solid var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 0 20px var(--accent-glow);'>🛡️</div>
     <div>
-        <h1 style='margin:0!important;padding:0!important;'>DeepGuard AI</h1>
-        <p style='color:#475569;font-size:.78rem;letter-spacing:.5px;margin:0;'>Neural Forensics Engine · Synthetic Media Detection</p>
+        <h1 style='margin:0!important;padding:0!important;line-height:1!important;'>DeepGuard AI</h1>
+        <p style='color:var(--text-muted);font-size:.85rem;letter-spacing:1px;margin:0;font-family:"IBM Plex Mono"!important;'>SYSTEM_STATUS: OPERATIONAL · NEURAL_FORENSICS_ONLINE</p>
     </div>
 </div>""", unsafe_allow_html=True)
 st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
@@ -277,7 +377,7 @@ if uploaded:
                         <div class='metric-item'><div class='metric-val'>{risk}</div><div class='metric-label'>Risk</div></div>
                     </div>
                 </div>""", unsafe_allow_html=True)
-                st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+                st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
 
                 # IMAGES
                 st.markdown("## Visual Evidence")
@@ -292,14 +392,14 @@ if uploaded:
                     with cols[2]:
                         st.markdown("<h3>Heatmap</h3>", unsafe_allow_html=True)
                         st.image(hm, use_container_width=True)
-                st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+                st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
 
                 # FINDINGS
                 st.markdown("## Forensic Findings")
                 for i,f in enumerate(finds):
                     cls = "alert" if fake else ""
                     st.markdown(f"<div class='finding-item {cls}'><span class='finding-num'>{i+1:02d}</span>{f}</div>", unsafe_allow_html=True)
-                st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+                st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
 
                 # REGIONS
                 if regs:
@@ -308,25 +408,30 @@ if uploaded:
                         p = int(min(s,1.0)*100)
                         c = "#dc2626" if s>.5 else("#f59e0b" if s>.3 else "#2dd4bf")
                         st.markdown(f"<div class='region-bar-wrap'><div class='region-name'>{n}</div><div class='region-bar-bg'><div class='region-bar-fill' style='width:{p}%;background:{c};'></div></div><div class='region-pct'>{p}%</div></div>", unsafe_allow_html=True)
-                    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+                    st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
 
-                # REPORT WITH PHOTOS
-                st.markdown("## Full Report")
+                # DOSSIER STYLE REPORT
+                st.markdown("## Forensic Dossier")
                 fb = img_b64(face); ib = img_b64(image)
                 st.markdown(f"""
-                <div class='box' style='margin-bottom:1rem;'>
-                    <div style='display:flex;gap:1.5rem;flex-wrap:wrap;'>
-                        <div><div style='font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.5rem;'>Analyzed</div>
-                        <img src='data:image/jpeg;base64,{ib}' style='border:1px solid #1e293b;max-width:180px;'/></div>
-                        <div><div style='font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.5rem;'>Face</div>
-                        <img src='data:image/jpeg;base64,{fb}' style='border:1px solid #1e293b;max-width:180px;'/></div>
-                        <div style='flex:1;min-width:180px;'>
-                            <table style='font-size:.8rem;color:#94a3b8;line-height:2.2;'>
-                                <tr><td style='color:#475569;padding-right:1rem;'>File</td><td>{uploaded.name}</td></tr>
-                                <tr><td style='color:#475569;padding-right:1rem;'>Verdict</td><td class='{"red" if fake else "teal"}'><b>{"FAKE" if fake else "REAL"}</b></td></tr>
-                                <tr><td style='color:#475569;padding-right:1rem;'>Score</td><td>{prob*100:.1f}%</td></tr>
-                                <tr><td style='color:#475569;padding-right:1rem;'>Risk</td><td>{risk}</td></tr>
-                                <tr><td style='color:#475569;padding-right:1rem;'>Time</td><td>{datetime.now().strftime('%H:%M:%S')}</td></tr>
+                <div class='box' style='margin-bottom:1rem; padding: 2rem;'>
+                    <div style='display:flex; gap:2.5rem; flex-wrap:wrap; align-items: flex-start;'>
+                        <div style='text-align: center;'>
+                            <div style='font-size:.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:1rem; font-family: "IBM Plex Mono"!important;'>[SOURCE_MEDIA]</div>
+                            <img src='data:image/jpeg;base64,{ib}' style='border:1px solid var(--border); max-width:200px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);'/>
+                        </div>
+                        <div style='text-align: center;'>
+                            <div style='font-size:.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:1rem; font-family: "IBM Plex Mono"!important;'>[EXTRACTED_FACE]</div>
+                            <img src='data:image/jpeg;base64,{fb}' style='border:1px solid var(--accent); max-width:200px; border-radius: 4px; box-shadow: 0 10px 30px var(--accent-glow);'/>
+                        </div>
+                        <div style='flex:1; min-width:250px; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border);'>
+                            <div style='font-size:.65rem; color:var(--accent); text-transform:uppercase; letter-spacing:2px; margin-bottom:1rem; font-family: "IBM Plex Mono"!important;'>// ANALYSIS_METADATA</div>
+                            <table style='width: 100%; font-size:.85rem; color:var(--text-main); line-height:2.5; border-collapse: collapse;'>
+                                <tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'><td style='color:var(--text-muted); padding-right:1rem; font-family: "IBM Plex Mono"!important;'>IDENTIFIER</td><td>{uploaded.name}</td></tr>
+                                <tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'><td style='color:var(--text-muted); padding-right:1rem; font-family: "IBM Plex Mono"!important;'>VERDICT</td><td class='{"red" if fake else "teal"}'><b>{"MANIPULATED" if fake else "AUTHENTIC"}</b></td></tr>
+                                <tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'><td style='color:var(--text-muted); padding-right:1rem; font-family: "IBM Plex Mono"!important;'>PROBABILITY</td><td style='font-family: "IBM Plex Mono"!important;'>{prob*100:.2f}%</td></tr>
+                                <tr style='border-bottom: 1px solid rgba(255,255,255,0.05);'><td style='color:var(--text-muted); padding-right:1rem; font-family: "IBM Plex Mono"!important;'>THREAT_LEVEL</td><td style='font-family: "IBM Plex Mono"!important;'>{risk}</td></tr>
+                                <tr><td style='color:var(--text-muted); padding-right:1rem; font-family: "IBM Plex Mono"!important;'>TIMESTAMP</td><td style='font-family: "IBM Plex Mono"!important;'>{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</td></tr>
                             </table>
                         </div>
                     </div>
@@ -356,13 +461,14 @@ else:
     st.session_state.analyzed = False
     st.session_state.analyzed_file = None
     st.markdown("""
-    <div style='text-align:center;padding:6rem 2rem;'>
-        <p style='font-size:.7rem;color:#334155;text-transform:uppercase;letter-spacing:3px;'>Ready</p>
-        <p style='color:#94a3b8;font-size:1rem;max-width:400px;margin:1rem auto;line-height:1.8;'>Upload an image or video for neural forensic analysis</p>
-        <div style='display:flex;justify-content:center;gap:3rem;margin-top:3rem;'>
-            <div><p class='teal' style='font-size:.7rem;text-transform:uppercase;letter-spacing:2px;'>Model</p><p class='muted' style='font-size:.8rem;'>EfficientNet-B4</p></div>
-            <div><p class='teal' style='font-size:.7rem;text-transform:uppercase;letter-spacing:2px;'>Detection</p><p class='muted' style='font-size:.8rem;'>MTCNN</p></div>
-            <div><p class='teal' style='font-size:.7rem;text-transform:uppercase;letter-spacing:2px;'>Explainability</p><p class='muted' style='font-size:.8rem;'>Grad-CAM</p></div>
+    <div style='text-align:center; padding: 8rem 2rem;'>
+        <div style='width: 100px; height: 100px; background: var(--card-bg); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin: 0 auto 2rem; box-shadow: 0 0 30px var(--accent-glow);'>📡</div>
+        <p style='font-size:.7rem; color:var(--accent); text-transform:uppercase; letter-spacing:4px; font-family: "IBM Plex Mono"!important;'>SYSTEM_STATUS: IDLE</p>
+        <p style='color:var(--text-muted); font-size:1.1rem; max-width:500px; margin:1rem auto 3rem; line-height:1.8;'>Neural Forensics Engine ready for input. Upload source media to begin cross-reference analysis.</p>
+        <div style='display:flex; justify-content:center; gap:4rem; margin-top:4rem;'>
+            <div><p style='font-size:.65rem; color:var(--accent); text-transform:uppercase; letter-spacing:2px; font-family: "IBM Plex Mono"!important;'>ENGINE</p><p style='font-size:.85rem; color: var(--text-main);'>EFFICIENTNET-B4</p></div>
+            <div><p style='font-size:.65rem; color:var(--accent); text-transform:uppercase; letter-spacing:2px; font-family: "IBM Plex Mono"!important;'>SENSOR</p><p style='font-size:.85rem; color: var(--text-main);'>MTCNN_FACE</p></div>
+            <div><p style='font-size:.65rem; color:var(--accent); text-transform:uppercase; letter-spacing:2px; font-family: "IBM Plex Mono"!important;'>XAI_LAYER</p><p style='font-size:.85rem; color: var(--text-main);'>GRAD_CAM</p></div>
         </div>
     </div>""", unsafe_allow_html=True)
 
