@@ -13,26 +13,21 @@ Imagine you have a super-smart detective robot with a magnifying glass.
 
 ---
 
-## 🎓 Technical Architecture (For the Professor)
-DeepGuard AI is an end-to-end PyTorch-based classification pipeline designed for high-accuracy synthetic media detection.
+## 🧠 The Science Behind It (For Students & Professors)
 
-### 1. Data Processing Pipeline
-*   **Face Extraction:** Uses **MTCNN (Multi-task Cascaded Convolutional Networks)** to reliably locate and crop facial bounding boxes with a 20-pixel margin. This isolates the region of interest and removes background noise.
-*   **Transformations:** Images are resized to `224x224` and normalized using standard ImageNet parameters `(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])` via the `Albumentations` library.
+DeepGuard AI is built on three core pillars of modern deep learning. Here is how they work:
 
-### 2. Model Architecture
-*   **Backbone:** Uses **EfficientNet-B4** via the `timm` library. EfficientNet was chosen for its optimal balance of high accuracy and computational efficiency (achieved via compound scaling of depth, width, and resolution).
-*   **Classification Head:** The network terminates in a custom binary classification head featuring a `Dropout(p=0.4)` layer for regularization, followed by a `Linear` layer mapping to a single output, passed through a `Sigmoid` activation function to yield a probability score `P(Fake)`.
+### 1. Detection: MTCNN (Multi-task Cascaded Convolutional Networks)
+* **For the Student:** Before you can tell if a face is fake, you have to find the face! MTCNN is like a highly trained scout that scans the whole photo, ignores the background (like trees or rooms), and draws a perfect square right around the person's face.
+* **For the Professor:** MTCNN is a robust three-stage cascaded CNN that performs face detection and bounding box regression simultaneously. We use it as a preprocessing step to isolate the facial region of interest (ROI) with a 20-pixel margin, ensuring the downstream classifier isn't influenced by irrelevant background noise.
 
-### 3. Training Methodology
-*   **Dataset:** Trained on a curated subset of the **Kaggle 'Real and Fake Face Detection'** dataset, specifically targeted at facial forgery artifacts.
-*   **Two-Phase Transfer Learning:**
-    1.  **Phase 1 (Feature Extraction):** The EfficientNet backbone weights were frozen, and only the classification head was trained using an `AdamW` optimizer (`lr=1e-3`) for rapid convergence on the target domain.
-    2.  **Phase 2 (Fine-Tuning):** The entire network was unfrozen and trained with a highly reduced learning rate (`lr=1e-5`) to fine-tune the deep convolutional filters to recognize subtle spectral and blending inconsistencies characteristic of GANs and autoencoder-based face swaps.
-*   **Loss Function:** Binary Cross Entropy (BCE) Loss.
+### 2. The Model: EfficientNet-B4
+* **For the Student:** This is the "brain" of the operation. EfficientNet has analyzed millions of images. It looks at the cropped face and checks for microscopic mistakes—like blurred skin boundaries or unnatural lighting—that humans can't see, but AI generators often mess up.
+* **For the Professor:** EfficientNet-B4 is our primary feature-extraction backbone. It utilizes a compound scaling method that uniformly scales network width, depth, and resolution. B4 was chosen for its optimal balance between high forensic accuracy and computational efficiency. It was fine-tuned using a Two-Phase Transfer Learning approach with a custom `Dropout(p=0.4) -> Linear -> Sigmoid` classification head using Binary Cross Entropy (BCE) Loss.
 
-### 4. Explainability (XAI)
-*   The system implements **Grad-CAM (Gradient-weighted Class Activation Mapping)** attached to the final convolutional layer (`conv_head`) of the EfficientNet backbone. This provides visual interpretability by highlighting the specific spatial regions (e.g., jawline blending, eye specular highlights) that maximally activated the model's decision function.
+### 3. Explainability: Grad-CAM
+* **For the Student:** If the AI says a picture is fake, we want to know *why*. Grad-CAM is like a heat-vision camera. It creates a colorful map over the face, glowing bright red over the exact spots (like a glitchy eyeball or a poorly blended chin) that proved the image was deepfaked.
+* **For the Professor:** Neural networks are often criticized as "black boxes." Grad-CAM (Gradient-weighted Class Activation Mapping) solves this by using the gradients of the target concept flowing into the final convolutional layer (`conv_head`) to produce a localization map. This provides critical visual transparency, allowing forensic analysts to verify that the model is detecting genuine synthetic artifacts (e.g., blending boundaries) rather than overfitting to spurious correlations.
 
 ---
 
