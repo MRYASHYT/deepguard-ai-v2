@@ -132,41 +132,72 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 table { width: 100%; border-collapse: collapse; }
 td { padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-family: 'IBM Plex Mono'; font-size: 0.75rem; }
 
-.teal { color: var(--accent); }
-.red { color: var(--danger); }
-.muted { color: var(--text-muted); }
+/* --- Skeleton Loader --- */
+.skeleton {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-dim);
+    height: 200px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.03), transparent);
+    animation: skeleton-glow 2s infinite linear;
+}
+@keyframes skeleton-glow {
+    0% { transform: translateX(-100%); opacity: 0.1; }
+    50% { opacity: 0.3; }
+    100% { transform: translateX(100%); opacity: 0.1; }
+}
+
+.system-init {
+    text-align: center;
+    padding: 10rem 0;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+.pulse-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-right: 10px;
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
 </style>""", unsafe_allow_html=True)
 
-# ─── AUTH ───
-if "auth" not in st.session_state:
-    st.session_state.auth = False
+# ─── SYSTEM INITIALIZATION ───
+if "init" not in st.session_state:
+    st.session_state.init = False
 
-def login_page():
-    st.markdown("""
-    <div style='max-width: 400px; margin: 12vh auto; background: var(--bg-surface); border: 1px solid var(--border-bright); padding: 3rem; border-radius: 0; text-align: center;'>
-        <div style='margin-bottom: 1.5rem;'>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h1 style='color: var(--text-main)!important; font-size: 2rem!important; margin-bottom: 0.5rem!important; letter-spacing: -1px;'>DEEPGUARD AI</h1>
-        <p style='color: var(--accent); font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 2rem; font-family: "IBM Plex Mono"!important;'>[ SECURE_ACCESS_REQUIRED ]</p>
-        <div style='border-top: 1px solid var(--border-dim); margin: 2rem 0;'></div>
-    </div>""", unsafe_allow_html=True)
-    c1,c2,c3 = st.columns([1,1.1,1])
-    with c2:
-        user = st.text_input("IDENTITY_ID", placeholder="analyst_01")
-        pwd = st.text_input("ENCRYPTED_KEY", type="password", placeholder="••••••••")
-        st.markdown("<div style='margin-top:1.5rem;'></div>", unsafe_allow_html=True)
-        if st.button("AUTHORIZE", use_container_width=True):
-            if user == "admin" and pwd == "deepguard":
-                st.session_state.auth = True
-                st.rerun()
-            else:
-                st.error("ACCESS_DENIED: UNAUTHORIZED_IDENTITY")
-        st.markdown("<p style='text-align:center;color:var(--text-muted);font-size:.6rem;margin-top:2rem;font-family:\"IBM Plex Mono\"!important;'>CREDENTIALS: admin / deepguard</p>", unsafe_allow_html=True)
-
-if not st.session_state.auth:
-    login_page()
-    st.stop()
+if not st.session_state.init:
+    init_placeholder = st.empty()
+    with init_placeholder.container():
+        st.markdown(f"""
+        <div class='system-init'>
+            <div class='pulse-dot'></div>INITIALIZING_FORENSIC_ENGINE...
+            <div style='margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;'>
+                <div class='skeleton' style='height: 100px;'></div>
+                <div style='display: flex; gap: 1rem;'>
+                    <div class='skeleton' style='height: 150px; flex: 1;'></div>
+                    <div class='skeleton' style='height: 150px; flex: 1;'></div>
+                </div>
+                <div class='skeleton' style='height: 40px;'></div>
+            </div>
+        </div>""", unsafe_allow_html=True)
+        
+        # Load heavy resources here
+        time.sleep(1.5) # Minimum aesthetic delay
+        st.session_state.init = True
+        st.rerun()
 
 # ─── MODEL ───
 @st.cache_resource
