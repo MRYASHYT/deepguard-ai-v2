@@ -16,7 +16,9 @@ st.set_page_config(page_title="DeepGuard AI", page_icon="🛡️", layout="wide"
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
-*{font-family:'Plus Jakarta Sans',sans-serif!important}
+html, body, [class*="st-"] {font-family:'Plus Jakarta Sans',sans-serif;}
+h1, h2, h3, h4, h5, h6, p, span, div {font-family:'Plus Jakarta Sans',sans-serif;}
+.material-symbols-rounded, i, svg, [class*="icon"] {font-family: 'Material Symbols Rounded' !important;}
 pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 .stApp{background:#000}
 [data-testid="stHeader"]{display:none!important}
@@ -25,8 +27,7 @@ pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 [data-testid="stStatusWidget"]{display:none!important}
 .stDeployButton{display:none!important}
 button[kind="header"]{display:none!important}
-[data-testid="stSidebar"]{background:#000!important;border-right:1px solid #1e293b!important}
-[data-testid="stSidebar"] *{color:#94a3b8!important}
+[data-testid="stSidebar"]{background:#000!important;border-right:1px solid #1e293b!important;color:#94a3b8!important}
 [data-testid="stFileUploader"]{background:transparent!important}
 [data-testid="stFileUploader"] section{border:1px dashed #334155!important;border-radius:0!important;background:#0a0a0a!important;padding:2rem!important}
 [data-testid="stFileUploader"] section:hover{border-color:#2dd4bf!important}
