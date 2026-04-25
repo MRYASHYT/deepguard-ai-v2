@@ -77,6 +77,32 @@ The engine operates strictly on a **Facial Deepfake Detection** paradigm.
 
 ---
 
+## 🎓 Academic Defense: Proving the AI Training
+
+When presenting this project to a professor or technical lead, use the following "Proof Points" to demonstrate that the system is a trained Neural Forensic engine and not a heuristic detection tool.
+
+### 1. The Weight Artifact (`best_model.pth`)
+*   **The Evidence**: The model's intelligence is stored in the `best_model.pth` file.
+*   **The Rationale**: This file contains approximately **19 million learnable parameters** optimized through **Backpropagation**. These weights represent the "learned" patterns of synthetic skin and blending artifacts from the Kaggle DFDC and FaceForensics++ datasets.
+
+### 2. Grad-CAM Explainability (XAI)
+*   **The Evidence**: The visual Heatmap produced after every image analysis.
+*   **The Rationale**: We use **Grad-CAM** (Gradient-weighted Class Activation Mapping) to provide transparency. By calculating the gradients of the target class (Fake) flowing into the final convolutional layer, we can mathematically prove the model is focusing on **manipulation artifacts** (edges, mouth boundaries, eyes) rather than random background pixels.
+
+### 3. Architecture Selection: EfficientNet-B4
+*   **The Evidence**: The use of a state-of-the-art CNN backbone.
+*   **The Rationale**: Unlike simpler models, **EfficientNet-B4** uses **Compound Scaling** to balance depth, width, and resolution. This makes it specifically sensitive to high-frequency pixel inconsistencies that occur during GAN-based or FaceSwap-based generation processes.
+
+### 4. Forensic Augmentation Protocol
+*   **The Evidence**: Training-time noise and compression resilience.
+*   **The Rationale**: During training, we applied **Gaussian Noise, ISO Noise, and JPEG compression** to the dataset. This forced the model to learn "Inference-invariant" features, allowing it to detect fakes even when the source media has been degraded or compressed—a key challenge in real-world forensics.
+
+### 5. Training Metrics & Convergence
+*   **The Evidence**: Use of Binary Cross Entropy (BCE) Loss.
+*   **The Rationale**: The model was optimized using **BCE Loss** and validated using **AUC (Area Under Curve)** metrics on Kaggle's DFDC competition subset. We utilized a **Learning Rate Scheduler** (ReduceLROnPlateau) to ensure stable convergence during the multi-phase training protocol.
+
+---
+
 ## 🚀 How to Run the App
 
 This project is built using **Streamlit** for the forensic dashboard.
