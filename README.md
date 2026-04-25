@@ -29,6 +29,27 @@ DeepGuard AI is built on three core pillars of modern deep learning. Here is how
 * **For the Student:** If the AI says a picture is fake, we want to know *why*. Grad-CAM is like a heat-vision camera. It creates a colorful map over the face, glowing bright red over the exact spots (like a glitchy eyeball or a poorly blended chin) that proved the image was deepfaked.
 * **For the Professor:** Neural networks are often criticized as "black boxes." Grad-CAM (Gradient-weighted Class Activation Mapping) solves this by using the gradients of the target concept flowing into the final convolutional layer (`conv_head`) to produce a localization map. This provides critical visual transparency, allowing forensic analysts to verify that the model is detecting genuine synthetic artifacts (e.g., blending boundaries) rather than overfitting to spurious correlations.
 
+## 🎯 Model Capabilities & Limitations
+
+DeepGuard AI is a highly specialized academic tool. It is critical to understand exactly what it can and cannot detect:
+
+### 1. What it Detects: Human Faces Only
+The engine operates strictly on a **Facial Deepfake Detection** paradigm.
+* The system relies entirely on the MTCNN face detector to locate a region of interest. 
+* **Conclusion:** The model can **ONLY** analyze images and videos that contain a human face. It cannot analyze landscapes, AI-generated voices, or text.
+
+### 2. Can it detect AI-Generated Cartoons or Anime?
+**No.**
+* MTCNN is trained on real human faces. It will fail to detect a cartoon, anime, or animal face.
+* Even if a cartoon face is forced through the pipeline, the EfficientNet-B4 classifier will produce arbitrary scores because its training dataset consisted of manipulated human skin textures, not drawn or animated pixels.
+
+### 3. Known Limitations
+For academic transparency, the following edge-cases and limitations apply:
+* **No Face = No Detection:** If a subject's face is completely obscured, turned away from the camera, or wearing a heavy mask, MTCNN will fail to extract a face, halting the analysis.
+* **Low Resolution / High Compression:** Deepfake artifacts exist at the pixel level. If a video is heavily compressed (e.g., forwarded through WhatsApp) or extremely blurry, these artifacts are smoothed over. This can result in **False Negatives** (flagging a fake video as real).
+* **Extreme Profile Angles:** The MTCNN face detector struggles with extreme 90-degree profile shots. It requires a reasonable view of the eyes, nose, and mouth to establish bounding boxes.
+* **100% Synthetic Generation (e.g., Sora, Midjourney):** The model is explicitly optimized to detect **facial manipulations** (e.g., FaceSwap, DeepFaceLab, lip-syncing). It looks for blending boundaries and warping. If a video is generated entirely from scratch by an AI without any face-swapping or blending, the model may struggle to classify it correctly because those specific manipulation artifacts do not exist.
+
 ---
 
 ## 🚀 How to Run the App
