@@ -207,37 +207,31 @@ def report(fn, prob, fake, finds, regs):
 ╚════════════════════════════════════════════════════════════╝"""
     return r
 
-# ─── HEADER ───
-head_col1, head_col2 = st.columns([5, 1])
-with head_col1:
-    st.markdown("""
-    <div style='display:flex;align-items:center;gap:1rem;margin-bottom:.5rem;'>
-        <span style='font-size:1.8rem;'>🛡️</span>
-        <div>
-            <h1 style='margin:0!important;padding:0!important;'>DeepGuard AI</h1>
-            <p style='color:#475569;font-size:.78rem;letter-spacing:.5px;margin:0;'>Neural Forensics Engine · Synthetic Media Detection</p>
-        </div>
-    </div>""", unsafe_allow_html=True)
-with head_col2:
-    st.markdown("<div style='margin-top:0.5rem;'>", unsafe_allow_html=True)
+# ─── SIDEBAR ───
+with st.sidebar:
+    st.markdown("<h3>System</h3>", unsafe_allow_html=True)
+    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+    threshold = st.slider("Threshold", 0.0, 1.0, 0.5, 0.05)
+    show_cam = st.checkbox("Grad-CAM", value=True)
+    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size:.75rem;line-height:2;color:#475569;'>Model → EfficientNet-B4<br>Detection → MTCNN<br>Explainability → Grad-CAM</p>", unsafe_allow_html=True)
+    st.markdown("<div class='line'></div>", unsafe_allow_html=True)
     if st.button("LOGOUT", use_container_width=True):
         st.session_state.auth = False; st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
 
+# ─── HEADER ───
+st.markdown("""
+<div style='display:flex;align-items:center;gap:1rem;margin-bottom:.5rem;'>
+    <span style='font-size:1.8rem;'>🛡️</span>
+    <div>
+        <h1 style='margin:0!important;padding:0!important;'>DeepGuard AI</h1>
+        <p style='color:#475569;font-size:.78rem;letter-spacing:.5px;margin:0;'>Neural Forensics Engine · Synthetic Media Detection</p>
+    </div>
+</div>""", unsafe_allow_html=True)
 st.markdown("<div class='scan-line'></div>", unsafe_allow_html=True)
 
-# ─── SETTINGS ───
-st.markdown("<h3 style='margin-top:1.5rem;'>Analysis Settings</h3>", unsafe_allow_html=True)
-set_col1, set_col2 = st.columns([2, 1])
-with set_col1:
-    threshold = st.slider("Detection Threshold (Sensitivity)", 0.0, 1.0, 0.5, 0.05)
-with set_col2:
-    st.markdown("<div style='margin-top:2.2rem;'>", unsafe_allow_html=True)
-    show_cam = st.checkbox("Generate Grad-CAM Heatmap", value=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
 # ─── UPLOAD ───
-st.markdown("<h3 style='margin-top:1.5rem;'>Upload Media</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='margin-top:1.5rem;'>Upload Media for Analysis</h3>", unsafe_allow_html=True)
 uploaded = st.file_uploader("", type=['jpg','png','jpeg','mp4','avi'], label_visibility="collapsed")
 model, device = load_model()
 
