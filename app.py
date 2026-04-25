@@ -285,6 +285,7 @@ def report(fn, prob, fake, finds, regs):
 
   Report ID       DG-{now.strftime('%Y%m%d%H%M%S')}
   Generated       {now.strftime('%Y-%m-%d %H:%M:%S')}
+  Target Source   {fn}
   Engine          DeepGuard AI v1.0
   Model           EfficientNet-B4
 
@@ -455,7 +456,8 @@ if uploaded:
 
                 rt = report(uploaded.name, prob, fake, finds, regs)
                 st.markdown(f"<div class='report-box'>{rt}</div>", unsafe_allow_html=True)
-                st.download_button("↓  DOWNLOAD REPORT", rt, f"deepguard_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt", "text/plain")
+                st.download_button("↓  DOWNLOAD FORENSIC REPORT", rt, f"deepguard_{uploaded.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt", "text/plain")
+                st.caption("※ Forensic reports are generated on-the-fly and not stored on this server to maintain data privacy and integrity.")
 
             elif uploaded.type.startswith('video'):
                 st.video(uploaded)
