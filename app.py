@@ -32,6 +32,9 @@ button[kind="header"]{display:none!important}
 [data-testid="stFileUploader"] section:hover{border-color:#2dd4bf!important}
 [data-testid="stFileUploader"] button{border-radius:0!important;background:#2dd4bf!important;color:#000!important;font-weight:600!important;border:none!important}
 [data-testid="stFileUploader"] small{color:#64748b!important}
+[data-testid="stUploadedFile"]{background:#0a0a0a!important;border:1px solid #1e293b!important;border-radius:0!important;padding:.5rem!important;width:100%!important}
+[data-testid="stUploadedFile"] *{color:#94a3b8!important}
+[data-testid="stUploadedFile"] svg{fill:#2dd4bf!important}
 .stButton>button{border-radius:0!important;border:1px solid #334155!important;background:transparent!important;color:#fff!important;font-weight:500!important;padding:.6rem 1.5rem!important;letter-spacing:.5px!important;text-transform:uppercase!important;font-size:.75rem!important;transition:all .15s ease!important}
 .stButton>button:hover{background:#fff!important;color:#000!important;border-color:#fff!important}
 .stTextInput>div>div>input{background:#0a0a0a!important;border:1px solid #1e293b!important;border-radius:0!important;color:#fff!important;font-family:'Plus Jakarta Sans',sans-serif!important}
