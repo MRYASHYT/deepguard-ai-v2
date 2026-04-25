@@ -8,11 +8,11 @@
 
 Creating a forensic-grade detection model requires a rigorous multi-stage pipeline. Below is the full process used to build the DeepGuard engine.
 
-### 1. Dataset Selection & Curation
-The model was trained on a massive composite dataset designed to cover both old-school and state-of-the-art manipulation techniques:
-*   **FaceForensics++ (FF++)**: The industry standard dataset containing 1,000 original videos manipulated by four methods: Deepfakes, Face2Face, FaceSwap, and NeuralTextures.
-*   **DFDC (Deepfake Detection Challenge)**: A diverse dataset from Facebook/Meta containing over 100,000 video clips with various lighting conditions and ethnicities to prevent model bias.
-*   **Celeb-DF**: Used for high-quality, seamless deepfake samples to ensure the model can detect subtle blending artifacts.
+### 1. Dataset Selection (Kaggle DFDC)
+The model was trained exclusively on the **Deepfake Detection Challenge (DFDC)** dataset, sourced from **Kaggle**. This is currently the most significant and diverse dataset in the neural forensics field:
+*   **Scale**: Over 100,000 video clips generated using multiple deepfake techniques.
+*   **Diversity**: Includes a wide range of subjects, ethnicities, lighting conditions, and background environments to ensure the model generalizes to real-world scenarios.
+*   **Realism**: The dataset includes diverse audio and video augmentations (compression, noise, blur) to simulate the quality of media typically found on social platforms.
 
 ### 2. Model Architecture Rationale
 We selected **EfficientNet-B4** as our primary classification backbone for the following reasons:
@@ -21,8 +21,8 @@ We selected **EfficientNet-B4** as our primary classification backbone for the f
 
 ### 3. Training Protocol
 The training was conducted in two distinct phases:
-*   **Phase 1 (Feature Alignment)**: The model was initialized with ImageNet weights. The final layers were unfrozen and trained on the FF++ dataset to teach the model what "synthetic skin" looks like.
-*   **Phase 2 (Hardening)**: The entire network was unfrozen and trained at a lower learning rate (`1e-5`) on the DFDC dataset. This "hardened" the model against different lighting, compression, and resolutions.
+*   **Phase 1 (Feature Alignment)**: The model was initialized with ImageNet weights. The final layers were unfrozen and trained on a clean subset of the **Kaggle DFDC** dataset to establish a baseline for facial authenticity.
+*   **Phase 2 (Hardening)**: The entire network was unfrozen and trained at a lower learning rate (`1e-5`) on the full **DFDC** dataset. This "hardened" the model against different lighting, compression, and resolutions.
 *   **Augmentations**: To make the model robust, we applied "Forensic Augmentations" during training, including Gaussian Blur, ISO Noise, and JPEG compression. This teaches the model to see through common video "smudging" used to hide fakes.
 
 ### 4. The Forensic Pipeline
