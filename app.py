@@ -16,9 +16,7 @@ st.set_page_config(page_title="DeepGuard AI", page_icon="🛡️", layout="wide"
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
-html, body, [class*="st-"] {font-family:'Plus Jakarta Sans',sans-serif;}
-h1, h2, h3, h4, h5, h6, p, span, div {font-family:'Plus Jakarta Sans',sans-serif;}
-.material-symbols-rounded, i, svg, [class*="icon"] {font-family: 'Material Symbols Rounded' !important;}
+h1, h2, h3, h4, h5, h6, p, label, li {font-family:'Plus Jakarta Sans',sans-serif!important;}
 pre,code,.mono{font-family:'IBM Plex Mono',monospace!important}
 .stApp{background:#000}
 [data-testid="stHeader"]{display:none!important}
